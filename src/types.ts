@@ -8,6 +8,7 @@ export interface DocumentUrlHistory {
   id: string;
   from: string[];
   to: string;
+  removed?: boolean;
 }
 
 export interface DocumentMetaData {

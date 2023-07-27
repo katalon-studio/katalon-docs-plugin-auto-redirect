@@ -13,6 +13,6 @@ function getS3Config({ s3Config }) {
 }
 exports.getS3Config = getS3Config;
 function getRedirectRules(historyItems) {
-    return historyItems.filter((history) => history.from.length).map(({ from, to }) => ({ from, to }));
+    return historyItems.filter((history) => history.from.length && !history.removed).map(({ from, to }) => ({ from, to }));
 }
 exports.getRedirectRules = getRedirectRules;

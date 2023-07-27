@@ -72,7 +72,7 @@ export default class AWSDocumentTrackingLib {
     if (!lodash.isEmpty(remoteTrackingFiles)) {
       trackingFiles = documentsMetaData.map((item) => {
         const remoteFile = lodash.find<DocumentUrlHistory>(
-          (remoteItem) => remoteItem.id === item.id
+          (remoteItem) => remoteItem.id === item.id && !remoteItem.removed
         )(remoteTrackingFiles);
 
         if (!lodash.isNil(remoteFile)) {
@@ -85,9 +85,25 @@ export default class AWSDocumentTrackingLib {
             }
             remoteFile.to = item.permalink;
           }
-          return remoteFile;
+
+          return {
+            ...remoteFile,
+            from: [...new Set(remoteFile.from)], // use Set to remove duplicate "from" paths
+          };
         }
         return { id: item.id, from: [], to: item.permalink };
+      });
+
+      // Put records of removed docs at the end of the list
+      const currentDocIds = trackingFiles.map(item => item.id);
+      remoteTrackingFiles.forEach(item => {
+        if (item.removed || !currentDocIds.includes(item.id)) {
+          trackingFiles.push({
+            ...item,
+            from: [...new Set(item.from)],
+            removed: true,
+          });
+        }
       });
     } else {
       trackingFiles = documentsMetaData.map((item) => {
@@ -98,7 +114,6 @@ export default class AWSDocumentTrackingLib {
         };
       });
     }
-
     return trackingFiles;
   }
 
