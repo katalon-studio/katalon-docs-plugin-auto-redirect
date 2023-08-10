@@ -13,5 +13,5 @@ export function getS3Config({ s3Config }: PluginOptions): S3Config {
 }
 
 export function getRedirectRules(historyItems: DocumentUrlHistory[]): RedirectRule[] {
-  return historyItems.filter((history) => history.from.length).map(({ from, to }) => ({ from, to }));
+  return historyItems.filter((history) => history.from.length && !history.removed).map(({ from, to }) => ({ from, to }));
 }

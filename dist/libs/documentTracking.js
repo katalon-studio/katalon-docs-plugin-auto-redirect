@@ -51,7 +51,7 @@ class AWSDocumentTrackingLib {
         const remoteTrackingFiles = JSON.parse(fileContent);
         if (!fp_1.default.isEmpty(remoteTrackingFiles)) {
             trackingFiles = documentsMetaData.map((item) => {
-                const remoteFile = fp_1.default.find((remoteItem) => remoteItem.id === item.id)(remoteTrackingFiles);
+                const remoteFile = fp_1.default.find((remoteItem) => remoteItem.id === item.id && !remoteItem.removed)(remoteTrackingFiles);
                 if (!fp_1.default.isNil(remoteFile)) {
                     if (item.permalink !== remoteFile.to) {
                         const currentPaths = documentsMetaData.map((item) => item.permalink);
@@ -60,9 +60,22 @@ class AWSDocumentTrackingLib {
                         }
                         remoteFile.to = item.permalink;
                     }
-                    return remoteFile;
+                    return {
+                        ...remoteFile,
+                        from: [...new Set(remoteFile.from)],
+                    };
                 }
                 return { id: item.id, from: [], to: item.permalink };
+            });
+            const currentDocIds = trackingFiles.map(item => item.id);
+            remoteTrackingFiles.forEach(item => {
+                if (item.removed || !currentDocIds.includes(item.id)) {
+                    trackingFiles.push({
+                        ...item,
+                        from: [...new Set(item.from)],
+                        removed: true,
+                    });
+                }
             });
         }
         else {
