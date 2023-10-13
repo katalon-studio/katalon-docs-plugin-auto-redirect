@@ -2,7 +2,7 @@ import { PluginOptions, RedirectRule, S3Config, DocumentUrlHistory } from './typ
 require('dotenv').config();
 
 export function getS3Config({ s3Config }: PluginOptions): S3Config {
-  const { accessKeyId, secretAccessKey, bucket, key, region } = s3Config;
+  const { accessKeyId, secretAccessKey, bucket, key, region } = s3Config || {};
 
   return {
     accessKeyId: accessKeyId || process.env.ACCESSKEYID!,
