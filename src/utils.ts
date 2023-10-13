@@ -1,14 +1,15 @@
 import { PluginOptions, RedirectRule, S3Config, DocumentUrlHistory } from './types';
+require('dotenv').config();
 
 export function getS3Config({ s3Config }: PluginOptions): S3Config {
   const { accessKeyId, secretAccessKey, bucket, key, region } = s3Config;
 
   return {
-    accessKeyId,
-    secretAccessKey,
-    bucket,
-    key: key ? `${key}.json` : 'document_changes.json',
-    region: region || 'us-east-2',
+    accessKeyId: accessKeyId || process.env.ACCESSKEYID!,
+    secretAccessKey: secretAccessKey || process.env.SECRETACCESSKEY!,
+    bucket: bucket || process.env.BUCKET!,
+    key: key ? `${key}.json` : 'katalondocs.json',
+    region: region || 'us-east-1',
   }
 }
 
