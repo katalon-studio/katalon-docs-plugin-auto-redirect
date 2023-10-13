@@ -1,12 +1,14 @@
 "use strict";
+require('dotenv').config();
+
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRedirectRules = exports.getS3Config = void 0;
 function getS3Config({ s3Config }) {
     const { accessKeyId, secretAccessKey, bucket, key, region } = s3Config;
     return {
-        accessKeyId,
-        secretAccessKey,
-        bucket,
+        accessKeyId: accessKeyId || process.env.ACCESSKEYID,
+        secretAccessKey: secretAccessKey || process.env.SECRETACCESSKEY,
+        bucket: bucket || processs.env.BUCKET,
         key: key ? `${key}.json` : 'document_changes.json',
         region: region || 'us-east-2',
     };
