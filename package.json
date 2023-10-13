@@ -9,6 +9,8 @@
     "build": "rm -rf dist && tsc"
   },
   "dependencies": {
+    "docusaurus-plugin-dotenv": "^1.0.1",
+    "dotenv": "^16.0.1",
     "@aws-sdk/client-s3": "^3.190.0",
     "@docusaurus/plugin-client-redirects": "^2.1.0",
     "lodash": "^4.17.21"
