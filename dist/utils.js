@@ -8,7 +8,7 @@ function getS3Config({ s3Config }) {
         accessKeyId: accessKeyId || process.env.ACCESSKEYID,
         secretAccessKey: secretAccessKey || process.env.SECRETACCESSKEY,
         bucket: bucket || process.env.BUCKET,
-        key: key ? `${key}.json` : (process.env.ACCESSKEYID ? `${process.env.ACCESSKEYID}.json` : 'document_changes.json'),
+        key: key ? `${key}.json` : (process.env.KEY ? `${process.env.KEY}.json` : 'document_changes.json'),
         region: region || (process.env.REGION || 'us-east-2'),
     };
 }
