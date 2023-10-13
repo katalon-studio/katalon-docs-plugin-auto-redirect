@@ -4,7 +4,7 @@ require('dotenv').config();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRedirectRules = exports.getS3Config = void 0;
 function getS3Config({ s3Config }) {
-    const { accessKeyId, secretAccessKey, bucket, key, region } = s3Config;
+    const { accessKeyId, secretAccessKey, bucket, key, region } = s3Config || {};
     return {
         accessKeyId: accessKeyId || process.env.ACCESSKEYID,
         secretAccessKey: secretAccessKey || process.env.SECRETACCESSKEY,
